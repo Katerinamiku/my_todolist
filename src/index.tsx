@@ -8,14 +8,14 @@ import {createTheme, ThemeProvider} from "@material-ui/core";
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#b2dfdb',
-            light: '#e5ffff',
-            dark: '#81b9bf',
+            main: '#5ab1b0',
+            light: '#ddffff',
+            dark: '#79bcba',
         },
         secondary: {
-            light: 'rgba(255,235,238,0.72)',
-            main: 'rgba(255,205,210,0.86)',
-            dark: '#cb9ca1',
+            light: '#fffffc',
+            main: '#ffcdc9',
+            dark: '#cb9c98',
     }
 }})
 
