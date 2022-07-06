@@ -3,7 +3,8 @@ import './App.css';
 import {Todolist} from "./components/Todolist";
 import {v1} from "uuid";
 import AddNewListInput from "./components/AddNewListInput";
-import {AppBar, Container, Grid, IconButton, Menu, Paper, Toolbar, Typography} from '@material-ui/core';
+import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@material-ui/core';
+import {Menu} from "@material-ui/icons";
 
 
 export type ActivityType = {
@@ -111,7 +112,7 @@ function App() {
 
     return (
         <Grid item key={tl.id}>
-            <Paper elevation={6} style={{padding: "5px 20px 20px 20px", background: '#e5ffff'}}>
+            <Paper elevation={6} style={{padding: "5px 10px 20px 20px", background: '#ddffff'}}>
                 <Todolist key={tl.id}
                           id={tl.id}
                           title={tl.title}
@@ -134,13 +135,19 @@ function App() {
         <div className="App">
             <AppBar position="static" color={'secondary'}>
                 <Toolbar style={{justifyContent: "space-between"}} >
+                    <IconButton edge="start" color="inherit" aria-label="menu">
+                        <Menu/>
+                    </IconButton>
                     <Typography variant="h6">
                         My Lists
                     </Typography>
+                    <div><Button color="inherit" variant={"outlined"} style={{margin: '5px'}}>Login</Button>
+                        <Button color="inherit" variant={"outlined"} style={{margin: '5px'}}>Sign in</Button>
+                    </div>
                 </Toolbar>
             </AppBar>
-            <Container fixed>
-                <Grid container style={{padding: "20px 0"}}>
+            <Container fixed >
+                <Grid container style={{paddingBottom: "10px"}}>
                     <AddNewListInput addNewList={addNewList}/></Grid>
                 <Grid container spacing={4}>{todolistsComponents}</Grid>
             </Container>

@@ -1,11 +1,19 @@
 import {ActivityType, FilterValuesType} from "../App";
-import {ChangeEvent, KeyboardEvent, useState} from "react";
 import EditableSpan from "./EditableSpan";
 import {ButtonUni} from "./ButtonUni";
 import {CheckboxUni} from "./CheckboxUni";
 import s from './todolist.module.css';
-import {IconButton, List, ListItem} from "@material-ui/core";
-import {Clear, CloseRounded, DeleteForeverOutlined} from "@material-ui/icons";
+import {Checkbox, Icon, IconButton, List, ListItem, SvgIcon} from "@material-ui/core";
+import {
+    CloseRounded,
+    DeleteOutline,
+    EditOutlined,
+    Favorite,
+    FavoriteBorder,
+    SentimentDissatisfied, SentimentDissatisfiedOutlined
+} from "@material-ui/icons";
+import AddingInput from "./AddingInput";
+
 
 type ToDoListPropsType = {
     id: string
@@ -22,27 +30,33 @@ type ToDoListPropsType = {
 }
 
 export const Todolist = (props: ToDoListPropsType) => {
+    const tasksJSX = props.activities.length
+        ? props.activities.map((t) => {
+            const removeTaskHandler = () => props.removeActivity(t.id, props.id)
 
-    let [title, setTitle] = useState("")
-    let [error, setError] = useState('')
+            const checkedHandler = (eventValue: boolean) => {
+                props.checkboxStatus(t.id, eventValue, props.id)
+            }
+            const changeActivityTitle = (title: string) => {
+                props.changeActivityTitle(title, props.id, t.id)
+            }
 
-    const addActivityHandler = () => {
-        if (title.trim() === '') {
-            setError('Incorrect value')
-        } else {
-            props.addActivity(title.trim(), props.id)
-            setTitle('')
-        }
-    }
+            return <ListItem key={t.id}
+                             dense
+                             style={{padding: '0'}}
+                             className={t.isDone ? "task isDone" : "task"}
+                             divider>
+                <Checkbox style={{color: '#ed407a'}} icon={<FavoriteBorder/>} checkedIcon={<Favorite/>}/>
+                <CheckboxUni isDone={t.isDone} callBack={checkedHandler}/>
+                <EditableSpan title={t.title} onChange={changeActivityTitle}/>
+                <IconButton size={'small'} onClick={removeTaskHandler}><CloseRounded/></IconButton>
+            </ListItem>
+        }) :
+        <div>
+            <SentimentDissatisfiedOutlined/>
+            <span className={'emptyList'}>Your list is empty</span>
+        </div>
 
-    const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setTitle(event.currentTarget.value)
-        setError('')
-    }
-
-    const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        (e.key === 'Enter') && addActivityHandler()
-    }
 
     const onClickHandler = (filterValue: FilterValuesType) => {
         props.changefilterTasks(filterValue, props.id);
@@ -51,45 +65,21 @@ export const Todolist = (props: ToDoListPropsType) => {
     const changeTitle = (title: string) => {
         props.changeTitle(title, props.id)
     }
+    const addTask = (title: string) => props.addActivity(title, props.id)
+
     return (
         <div className={s.list}>
             <h3>
+                <EditOutlined color={'primary'} style={{fontSize: '20px'}}/>
                 <EditableSpan title={props.title}
                               onChange={changeTitle}/>
-                <IconButton onClick={removeTodolist}><DeleteForeverOutlined/></IconButton>
+                <IconButton onClick={removeTodolist}><DeleteOutline/></IconButton>
             </h3>
             <div>
-
-                <input value={title}
-                       onChange={onChangeHandler}
-                       onKeyDown={onKeyDownHandler}/>
-                <ButtonUni callBack={addActivityHandler}
-                           name={'Add'}/>
-                {error && <div> {error} </div>}
+                <AddingInput addItem={addTask}/>
             </div>
             <List>
-                {
-                    props.activities.map((t) => {
-                        const removeTaskHandler = () => props.removeActivity(t.id, props.id)
-
-                        const checkedHandler = (eventValue: boolean) => {
-                            props.checkboxStatus(t.id, eventValue, props.id)
-                        }
-                        const changeActivityTitle = (title: string) => {
-                            props.changeActivityTitle(title, props.id, t.id)
-                        }
-
-                        return <ListItem key={t.id}
-                                         dense
-                                         style={{padding: '0'}}
-                                         divider>
-                            <CheckboxUni isDone={t.isDone} callBack={checkedHandler}/>
-                            <EditableSpan title={t.title} onChange={changeActivityTitle}/>
-
-                            <IconButton size={'small'} onClick={removeTaskHandler}><CloseRounded/></IconButton>
-                        </ListItem>
-                    })
-                }
+                {tasksJSX}
             </List>
             <div>
                 <ButtonUni name={'All'} callBack={() => onClickHandler('all')}/>
