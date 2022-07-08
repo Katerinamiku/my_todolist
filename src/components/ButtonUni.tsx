@@ -13,6 +13,8 @@ export const ButtonUni = (props: ButtonPropsType) => {
         <Button onClick={onClickButtonHandler}
                 size={'small'}
                 variant={'contained'}
+                style={{margin: '5px'}}
+                color={'primary'}
                 disableElevation>{props.name}</Button>
     )
 }
