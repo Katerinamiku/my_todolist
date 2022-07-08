@@ -29,22 +29,28 @@ const AddNewListInput = (props: AddNewListPropsType) => {
     }
 
     return (
+
         <div className={s.newList}>
-            <span className={s.input}>
-                 <TextField value={title}
-                            onChange={onInputChangeHandler}
-                            onKeyDown={onKeyPressHandler}
-                            size={'small'}
-                            variant={'outlined'}
-                            label={'Create new List'}
-                            hiddenLabel
-                            defaultValue="Small"
-                            error={!!error}
-                            helperText={error && "Title is required"}
 
-                />
-            </span>
+            {/*<TextField value={title}*/}
+            {/*           onChange={onInputChangeHandler}*/}
+            {/*           onKeyDown={onKeyPressHandler}*/}
+            {/*           hiddenLabel*/}
+            {/*           defaultValue="Small"*/}
+            {/*           variant="standard"*/}
+            {/*           size="small"*/}
+            {/*           error={!!error}*/}
+            {/*           label="Enter name"*/}
+            {/*           helperText={error}*/}
 
+            {/*/>*/}
+
+                <input type={'text'}
+                       placeholder={'Create new List'}
+                       className={s.createInput}
+                       value={title}
+                       onChange={onInputChangeHandler}
+                       onKeyDown={onKeyPressHandler}/>
             <ButtonUni name={'Create'}
                        callBack={addNewList}/>
         </div>
